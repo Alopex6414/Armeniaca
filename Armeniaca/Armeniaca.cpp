@@ -8,6 +8,9 @@
 * @author	alopex
 * @version	v0.01a
 * @date		2018-4-20	v0.01a	alopex	Create Project.
+* @date		2018-4-21	v0.02a	alopex	Add Process Function.
+* @date		2018-4-26	v0.03a	alopex	Change Call Style From __stdcall to __cdecl.
+* @date		2018-4-26	v0.04a	alopex	Add FilePath&Time Function.
 */
 #include "Armeniaca.h"
 
@@ -18,15 +21,15 @@
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 //------------------------------------------------------------------
-// @Function:	 Armeniaca_IsProcessExistA()
+// @Function:	 Armeniaca_Process_IsProcessExistA()
 // @Purpose: Armeniaca检测进程是否存在
 // @Since: v0.01a
 // @Para: const char* strProcessName<进程名称>(ASCII)
 // @Return: TRUE: 成功 FALSE: 失败
-// @Sample: bRet = Armeniaca_IsProcessExistA("LiveCore.exe");
+// @Sample: bRet = Armeniaca_Process_IsProcessExistA("LiveCore.exe");
 // @Describe: 检测进程是否存在(名称)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_IsProcessExistA(const char* strProcessName)
+BOOL ARMENIACA_CALLMODE Armeniaca_Process_IsProcessExistA(const char* strProcessName)
 {
 	BOOL bRet = FALSE;
 	HANDLE hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -67,15 +70,15 @@ BOOL ARMENIACA_CALLMODE Armeniaca_IsProcessExistA(const char* strProcessName)
 }
 
 //------------------------------------------------------------------
-// @Function:	 Armeniaca_IsProcessExistW()
+// @Function:	 Armeniaca_Process_IsProcessExistW()
 // @Purpose: Armeniaca检测进程是否存在
 // @Since: v0.01a
 // @Para: const wchar_t* strProcessName<进程名称>(Unicode)
 // @Return: TRUE: 成功 FALSE: 失败
-// @Sample: bRet = Armeniaca_IsProcessExistW(L"LiveCore.exe");
+// @Sample: bRet = Armeniaca_Process_IsProcessExistW(L"LiveCore.exe");
 // @Describe: 检测进程是否存在(名称)(TRUE:进程存在, FALSE:进程不存在)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_IsProcessExistW(const wchar_t* strProcessName)
+BOOL ARMENIACA_CALLMODE Armeniaca_Process_IsProcessExistW(const wchar_t* strProcessName)
 {
 	BOOL bRet = FALSE;
 	HANDLE hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -105,15 +108,15 @@ BOOL ARMENIACA_CALLMODE Armeniaca_IsProcessExistW(const wchar_t* strProcessName)
 }
 
 //------------------------------------------------------------------
-// @Function:	 Armeniaca_StartProcessA()
+// @Function:	 Armeniaca_Process_StartProcessA()
 // @Purpose: Armeniaca启动进程(在路径目录下)
 // @Since: v0.01a
 // @Para: const char* strProcessName<进程名称>(ASCII)
 // @Return: TRUE: 成功 FALSE: 失败
-// @Sample: bRet = Armeniaca_StartProcessA("LiveCore.exe");
+// @Sample: bRet = Armeniaca_Process_StartProcessA("LiveCore.exe");
 // @Describe: 启动进程(名称)(TRUE:启动进程成功, FALSE:启动进程失败)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_StartProcessA(const char* strProcessName)
+BOOL ARMENIACA_CALLMODE Armeniaca_Process_StartProcessA(const char* strProcessName)
 {
 	BOOL bRet = FALSE;
 
@@ -148,15 +151,15 @@ BOOL ARMENIACA_CALLMODE Armeniaca_StartProcessA(const char* strProcessName)
 }
 
 //------------------------------------------------------------------
-// @Function:	 Armeniaca_StartProcessW()
+// @Function:	 Armeniaca_Process_StartProcessW()
 // @Purpose: Armeniaca启动进程(在路径目录下)
 // @Since: v0.01a
 // @Para: const wchar_t* strProcessName<进程名称>(Unicode)
 // @Return: TRUE: 成功 FALSE: 失败
-// @Sample: bRet = Armeniaca_StartProcessW(L"LiveCore.exe");
+// @Sample: bRet = Armeniaca_Process_StartProcessW(L"LiveCore.exe");
 // @Describe: 启动进程(名称)(TRUE:启动进程成功, FALSE:启动进程失败)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_StartProcessW(const wchar_t* strProcessName)
+BOOL ARMENIACA_CALLMODE Armeniaca_Process_StartProcessW(const wchar_t* strProcessName)
 {
 	BOOL bRet = FALSE;
 
@@ -233,7 +236,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Convert_A2W_Safe(const char* szArr, const wcha
 	::MultiByteToWideChar(CP_ACP, 0, szArr, -1, (LPWSTR)pwszArr, nSrcSize);
 
 	memset((void*)wszArr, 0, nSize * sizeof(wchar_t));
-	memcpy_s((void*)wszArr, nSize * sizeof(wchar_t), pwszArr, (nSrcSize + 1) * sizeof(char));
+	memcpy_s((void*)wszArr, nSize * sizeof(wchar_t), pwszArr, (nSrcSize + 1) * sizeof(wchar_t));
 
 	delete[] pwszArr;
 	pwszArr = NULL;
@@ -268,7 +271,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Convert_W2A_Safe(const wchar_t* wszArr, const 
 	::WideCharToMultiByte(CP_ACP, 0, wszArr, -1, pszArr, nSrcSize, NULL, NULL);
 
 	memset((void*)szArr, 0, nSize * sizeof(char));
-	memcpy_s((void*)szArr, nSize * sizeof(char), pszArr, (nSrcSize + 1) * sizeof(wchar_t));
+	memcpy_s((void*)szArr, nSize * sizeof(char), pszArr, (nSrcSize + 1) * sizeof(char));
 
 	delete[] pszArr;
 	pszArr = NULL;
@@ -281,19 +284,19 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Convert_W2A_Safe(const wchar_t* wszArr, const 
 // @Purpose: Armeniaca字符转换(char转wchar_t)
 // @Since: v0.01a
 // @Para: const char* szArr			// 源字符数组
-// @Para: wchar_t* pwszArr			// 目标字符数组(指针传入NULL)
+// @Para: wchar_t** ppwszArr		// 目标字符数组(指针传入NULL)
 // @Return: None
 // @Sample: Armeniaca_Convert_A2W_UnSafe(A, W);
 // @Describe: 字符转换:ASCII转换Unicode(传入目标数组NULL指针,需要释放内存!)
 //------------------------------------------------------------------
-void ARMENIACA_CALLMODE Armeniaca_Convert_A2W_UnSafe(const char* szArr, wchar_t* pwszArr)
+void ARMENIACA_CALLMODE Armeniaca_Convert_A2W_UnSafe(const char* szArr, wchar_t** ppwszArr)
 {
 	int nSize = 0;
 
 	nSize = ::MultiByteToWideChar(CP_ACP, 0, szArr, -1, NULL, NULL);
-	pwszArr = new wchar_t[nSize + 1];
-	memset(pwszArr, 0, (nSize + 1) * sizeof(wchar_t));
-	::MultiByteToWideChar(CP_ACP, 0, szArr, -1, (LPWSTR)pwszArr, nSize);
+	*ppwszArr = new wchar_t[nSize + 1];
+	memset(*ppwszArr, 0, (nSize + 1) * sizeof(wchar_t));
+	::MultiByteToWideChar(CP_ACP, 0, szArr, -1, (LPWSTR)(*ppwszArr), nSize);
 
 	return;
 }
@@ -303,19 +306,19 @@ void ARMENIACA_CALLMODE Armeniaca_Convert_A2W_UnSafe(const char* szArr, wchar_t*
 // @Purpose: Armeniaca字符转换(wchar_t转char)
 // @Since: v0.01a
 // @Para: const wchar_t* wszArr		// 源字符数组
-// @Para: char* pszArr				// 目标字符数组(数组传入)
+// @Para: char** ppszArr			// 目标字符数组(数组传入)
 // @Return: None
 // @Sample: Armeniaca_Convert_W2A_UnSafe(W, A);
 // @Describe: 字符转换:Unicode转换ASCII(传入目标数组NULL指针,需要释放内存!)
 //------------------------------------------------------------------
-void ARMENIACA_CALLMODE Armeniaca_Convert_W2A_UnSafe(const wchar_t* wszArr, char* pszArr)
+void ARMENIACA_CALLMODE Armeniaca_Convert_W2A_UnSafe(const wchar_t* wszArr, char** ppszArr)
 {
 	int nSize = 0;
 
 	nSize = ::WideCharToMultiByte(CP_ACP, 0, wszArr, -1, NULL, 0, NULL, NULL);
-	pszArr = new char[nSize + 1];
-	memset(pszArr, 0, (nSize + 1) * sizeof(char));
-	::WideCharToMultiByte(CP_ACP, 0, wszArr, -1, pszArr, nSize, NULL, NULL);
+	*ppszArr = new char[nSize + 1];
+	memset(*ppszArr, 0, (nSize + 1) * sizeof(char));
+	::WideCharToMultiByte(CP_ACP, 0, wszArr, -1, *ppszArr, nSize, NULL, NULL);
 
 	return;
 }
@@ -367,3 +370,337 @@ char* ARMENIACA_CALLMODE Armeniaca_Convert_W2A_UnSafe2(const wchar_t* wszArr)
 // 文件路径(FilePath)
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+//------------------------------------------------------------------
+// @Function:	 Armeniaca_FilePath_GetModulePathA()
+// @Purpose: Armeniaca获取模块当前路径
+// @Since: v0.04a
+// @Para: const char* szArr			// 字符数组
+// @Para: int nSize					// 数组长度(一般可以MAX_PATH)
+// @Return: TRUE: 成功 FALSE: 失败
+// @Sample: Armeniaca_FilePath_GetModulePathA(szArr, nSize);
+// @Describe: 文件路径:获取模块当前文件路径(TRUE:成功, FALSE:失败)
+//------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetModulePathA(const char* szArr, int nSize)
+{
+	char chArr[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+	int nArrSize = 0;
+
+	GetModuleFileNameA(NULL, chArr, MAX_PATH);
+	nArrSize = strlen(chArr);
+	if (nSize < nArrSize + 1)
+	{
+		return FALSE;
+	}
+
+	memset((void*)szArr, 0, nSize * sizeof(char));
+	memcpy_s((void*)szArr, nSize * sizeof(char), chArr, (nArrSize + 1) * sizeof(char));
+
+	return TRUE;
+}
+
+//------------------------------------------------------------------
+// @Function:	 Armeniaca_FilePath_GetModulePathW()
+// @Purpose: Armeniaca获取模块当前路径
+// @Since: v0.04a
+// @Para: const wchar_t* wszArr		// 字符数组
+// @Para: int nSize					// 数组长度(一般可以MAX_PATH)
+// @Return: TRUE: 成功 FALSE: 失败
+// @Sample: Armeniaca_FilePath_GetModulePathW(wszArr, nSize);
+// @Describe: 文件路径:获取模块当前文件路径(TRUE:成功, FALSE:失败)
+//------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetModulePathW(const wchar_t* wszArr, int nSize)
+{
+	char chArr[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+	int nArrSize = 0;
+
+	GetModuleFileNameA(NULL, chArr, MAX_PATH);
+
+	BOOL bReturn = FALSE;
+	bReturn = Armeniaca_Convert_A2W_Safe(chArr, wszArr, nSize);
+	if (!bReturn)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+//------------------------------------------------------------------
+// @Function:	 Armeniaca_FilePath_GetLocalPathA()
+// @Purpose: Armeniaca获取模块当前路径
+// @Since: v0.04a
+// @Para: const char* szArr			// 字符数组
+// @Para: int nSize					// 数组长度(一般可以MAX_PATH)
+// @Return: TRUE: 成功 FALSE: 失败
+// @Sample: Armeniaca_FilePath_GetLocalPathA(szArr, nSize);
+// @Describe: 文件路径:获取模块当前文件夹路径(TRUE:成功, FALSE:失败)
+//------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetLocalPathA(const char* szArr, int nSize)
+{
+	char chArr[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+	int nArrSize = 0;
+
+	GetModuleFileNameA(NULL, chArr, MAX_PATH);
+	pTemp = strrchr(chArr, '\\');
+	if (pTemp != NULL)
+	{
+		*pTemp = '\0';
+	}
+
+	nArrSize = strlen(chArr);
+	if (nSize < nArrSize + 1)
+	{
+		return FALSE;
+	}
+
+	memset((void*)szArr, 0, nSize * sizeof(char));
+	memcpy_s((void*)szArr, nSize * sizeof(char), chArr, (nArrSize + 1) * sizeof(char));
+
+	return TRUE;
+}
+
+//------------------------------------------------------------------
+// @Function:	 Armeniaca_FilePath_GetLocalPathW()
+// @Purpose: Armeniaca获取模块当前路径
+// @Since: v0.04a
+// @Para: const wchar_t* wszArr		// 字符数组
+// @Para: int nSize					// 数组长度(一般可以MAX_PATH)
+// @Return: TRUE: 成功 FALSE: 失败
+// @Sample: Armeniaca_FilePath_GetLocalPathW(wszArr, nSize);
+// @Describe: 文件路径:获取模块当前文件夹路径(TRUE:成功, FALSE:失败)
+//------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetLocalPathW(const wchar_t* wszArr, int nSize)
+{
+	char chArr[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+
+	GetModuleFileNameA(NULL, chArr, MAX_PATH);
+	pTemp = strrchr(chArr, '\\');
+	if (pTemp != NULL)
+	{
+		*pTemp = '\0';
+	}
+
+	BOOL bReturn = FALSE;
+	bReturn = Armeniaca_Convert_A2W_Safe(chArr, wszArr, nSize);
+	if (!bReturn)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+//--------------------------------------------------------------------------
+// @Function:	 Armeniaca_FilePath_GetParentPathA()
+// @Purpose: Armeniaca获取模块父级路径
+// @Since: v0.04a
+// @Para: const char* szArr			// 字符数组
+// @Para: int nSize					// 数组长度(一般可以MAX_PATH)
+// @Para: int nDeep					// 路径层次(1:前一级路径;2:前两级路径...)
+// @Return: TRUE: 成功 FALSE: 失败
+// @Sample: Armeniaca_FilePath_GetParentPathA(szArr, nSize, 2);
+// @Describe: 文件路径:获取模块当前文件夹父级路径(TRUE:成功, FALSE:失败)
+//--------------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetParentPathA(const char* szArr, int nSize, int nDeep)
+{
+	char chArr[MAX_PATH] = { 0 };
+	int nArrSize = 0;
+
+	if (nDeep <= 0)
+	{
+		return FALSE;
+	}
+
+	GetModuleFileNameA(NULL, chArr, MAX_PATH);
+	for (int i = 0; i < nDeep; ++i)
+	{
+		char* pTemp = NULL;
+		pTemp = strrchr(chArr, '\\');
+		if (pTemp != NULL)
+		{
+			*pTemp = '\0';
+		}
+	}
+
+	nArrSize = strlen(chArr);
+	if (nSize < nArrSize + 1)
+	{
+		return FALSE;
+	}
+
+	memset((void*)szArr, 0, nSize * sizeof(char));
+	memcpy_s((void*)szArr, nSize * sizeof(char), chArr, (nArrSize + 1) * sizeof(char));
+
+	return TRUE;
+}
+
+//--------------------------------------------------------------------------
+// @Function:	 Armeniaca_FilePath_GetParentPathW()
+// @Purpose: Armeniaca获取模块父级路径
+// @Since: v0.04a
+// @Para: const wchar_t* wszArr		// 字符数组
+// @Para: int nSize					// 数组长度(一般可以MAX_PATH)
+// @Para: int nDeep					// 路径层次(1:前一级路径;2:前两级路径...)
+// @Return: TRUE: 成功 FALSE: 失败
+// @Sample: Armeniaca_FilePath_GetParentPathW(wszArr, nSize, 2);
+// @Describe: 文件路径:获取模块当前文件夹父级路径(TRUE:成功, FALSE:失败)
+//--------------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetParentPathW(const wchar_t* wszArr, int nSize, int nDeep)
+{
+	char chArr[MAX_PATH] = { 0 };
+
+	if (nDeep <= 0)
+	{
+		return FALSE;
+	}
+
+	GetModuleFileNameA(NULL, chArr, MAX_PATH);
+	for (int i = 0; i < nDeep; ++i)
+	{
+		char* pTemp = NULL;
+		pTemp = strrchr(chArr, '\\');
+		if (pTemp != NULL)
+		{
+			*pTemp = '\0';
+		}
+	}
+
+	BOOL bReturn = FALSE;
+	bReturn = Armeniaca_Convert_A2W_Safe(chArr, wszArr, nSize);
+	if (!bReturn)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+// 时间相关(Time)
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+//--------------------------------------------------------------------------
+// @Function:	 Armeniaca_Time_GetLocalTime()
+// @Purpose: Armeniaca获取系统时间
+// @Since: v0.04a
+// @Para: SYSTEMTIME* pLocalTime	//时间结构体指针
+// @Return: None
+// @Sample: Armeniaca_Time_GetLocalTime(&LocalTime);
+// @Describe: 时间:获取当前系统时间
+//--------------------------------------------------------------------------
+void ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime(SYSTEMTIME* pLocalTime)
+{
+	GetLocalTime(pLocalTime);
+}
+
+//--------------------------------------------------------------------------
+// @Function:	 Armeniaca_Time_GetLocalTime_Year()
+// @Purpose: Armeniaca获取系统时间(年份)
+// @Since: v0.04a
+// @Para: None
+// @Return: WORD wYear	//时间:年份
+// @Sample: wYear = Armeniaca_Time_GetLocalTime_Year();
+// @Describe: 时间:获取当前系统时间(年份)
+//--------------------------------------------------------------------------
+WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Year()
+{
+	SYSTEMTIME syTime;
+
+	GetLocalTime(&syTime);
+
+	return syTime.wYear;
+}
+
+//--------------------------------------------------------------------------
+// @Function:	 Armeniaca_Time_GetLocalTime_Month()
+// @Purpose: Armeniaca获取系统时间(月份)
+// @Since: v0.04a
+// @Para: None
+// @Return: WORD wMonth	//时间:月份
+// @Sample: wMonth = Armeniaca_Time_GetLocalTime_Month();
+// @Describe: 时间:获取当前系统时间(月份)
+//--------------------------------------------------------------------------
+WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Month()
+{
+	SYSTEMTIME syTime;
+
+	GetLocalTime(&syTime);
+
+	return syTime.wMonth;
+}
+
+//--------------------------------------------------------------------------
+// @Function:	 Armeniaca_Time_GetLocalTime_Day()
+// @Purpose: Armeniaca获取系统时间(天数)
+// @Since: v0.04a
+// @Para: None
+// @Return: WORD wDay	//时间:天数
+// @Sample: wDay = Armeniaca_Time_GetLocalTime_Day();
+// @Describe: 时间:获取当前系统时间(天数)
+//--------------------------------------------------------------------------
+WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Day()
+{
+	SYSTEMTIME syTime;
+
+	GetLocalTime(&syTime);
+
+	return syTime.wDay;
+}
+
+//--------------------------------------------------------------------------
+// @Function:	 Armeniaca_Time_GetLocalTime_Hour()
+// @Purpose: Armeniaca获取系统时间(小时)
+// @Since: v0.04a
+// @Para: None
+// @Return: WORD wHour	//时间:小时
+// @Sample: wHour = Armeniaca_Time_GetLocalTime_Hour();
+// @Describe: 时间:获取当前系统时间(小时)
+//--------------------------------------------------------------------------
+WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Hour()
+{
+	SYSTEMTIME syTime;
+
+	GetLocalTime(&syTime);
+
+	return syTime.wHour;
+}
+
+//--------------------------------------------------------------------------
+// @Function:	 Armeniaca_Time_GetLocalTime_Minute()
+// @Purpose: Armeniaca获取系统时间(分钟)
+// @Since: v0.04a
+// @Para: None
+// @Return: WORD wMinute	//时间:分钟
+// @Sample: wMinute = Armeniaca_Time_GetLocalTime_Minute();
+// @Describe: 时间:获取当前系统时间(分钟)
+//--------------------------------------------------------------------------
+WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Minute()
+{
+	SYSTEMTIME syTime;
+
+	GetLocalTime(&syTime);
+
+	return syTime.wMinute;
+}
+
+//--------------------------------------------------------------------------
+// @Function:	 Armeniaca_Time_GetLocalTime_Second()
+// @Purpose: Armeniaca获取系统时间(秒)
+// @Since: v0.04a
+// @Para: None
+// @Return: WORD wSecond	//时间:秒
+// @Sample: wSecond = Armeniaca_Time_GetLocalTime_Second();
+// @Describe: 时间:获取当前系统时间(秒)
+//--------------------------------------------------------------------------
+WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Second()
+{
+	SYSTEMTIME syTime;
+
+	GetLocalTime(&syTime);
+
+	return syTime.wSecond;
+}
