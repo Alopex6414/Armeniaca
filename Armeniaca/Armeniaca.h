@@ -6,11 +6,12 @@
 * @file		Armeniaca.h
 * @brief	This Program is Armeniaca C-Style Dynamic Link Library Project.
 * @author	alopex
-* @version	v0.04a
+* @version	v0.05a
 * @date		2018-4-20	v0.01a	alopex	Create Project.
 * @date		2018-4-21	v0.02a	alopex	Add Process Function.
 * @date		2018-4-26	v0.03a	alopex	Change Call Style From __stdcall to __cdecl.
 * @date		2018-4-26	v0.04a	alopex	Add FilePath&Time Function.
+* @date		2018-5-16	v0.05a	alopex	Add Read&Write INI File Function.
 */
 #pragma once
 
@@ -125,7 +126,7 @@ ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Convert_A2W_Safe(const char* szA
 ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Convert_W2A_Safe(const wchar_t* wszArr, const char* szArr, int nSize);
 
 //------------------------------------------------------------------
-// @Function:	 Armeniaca_Convert_A2W_UnSafe()(需要释放)
+// @Function:	 Armeniaca_Convert_A2W_UnSafe()(需要释放)(尽量不要用)
 // @Purpose: Armeniaca字符转换(char转wchar_t)
 // @Since: v0.01a
 // @Para: const char* szArr			// 源字符数组
@@ -137,7 +138,7 @@ ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Convert_W2A_Safe(const wchar_t* 
 ARMENIACA_API void ARMENIACA_CALLMODE Armeniaca_Convert_A2W_UnSafe(const char* szArr, wchar_t** ppwszArr);
 
 //------------------------------------------------------------------
-// @Function:	 Armeniaca_Convert_W2A_UnSafe()(需要释放)
+// @Function:	 Armeniaca_Convert_W2A_UnSafe()(需要释放)(尽量不要用)
 // @Purpose: Armeniaca字符转换(wchar_t转char)
 // @Since: v0.01a
 // @Para: const wchar_t* wszArr		// 源字符数组
@@ -327,6 +328,129 @@ ARMENIACA_API WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Minute();
 // @Describe: 时间:获取当前系统时间(秒)
 //--------------------------------------------------------------------------
 ARMENIACA_API WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Second();
+
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+// 配置文件相关(Config File)<ini>
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_GetKeyValue_String()
+// @Purpose: Armeniaca获取配置文件关键字值(字符类型)
+// @Since: v0.05a
+// @Para: const char* szArrFile			// 配置文件文件路径<in>(eg: D:\\LiveConfig.ini)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrDefault		// 配置文件缺省值<in>(eg: 0)
+// @Para: char* szArrValue				// 配置文件关键字值数组地址<out>
+// @Para: DWORD dwSize					// 配置文件关键字值数组长度<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_GetKeyValue_String("D:\\LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", chArr, MAX_PATH);
+// @Describe: 获取配置文件(INI)关键字值(字符类型)
+//----------------------------------------------------------------------------------------------------------------------------------
+ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_String(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrDefault, char* szArrValue, DWORD dwSize);
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_GetKeyValue_Int()
+// @Purpose: Armeniaca获取配置文件关键字值(值类型)
+// @Since: v0.05a
+// @Para: const char* szArrFile			// 配置文件文件路径<in>(eg: D:\\LiveConfig.ini)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrDefault		// 配置文件缺省值<in>(eg: 0)
+// @Para: int* pValue					// 配置文件关键字值<out>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_GetKeyValue_Int("D:\\LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", &dwValue);
+// @Describe: 获取配置文件(INI)关键字值(值类型)
+//----------------------------------------------------------------------------------------------------------------------------------
+ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Int(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrDefault, int* pValue);
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_SetKeyValue_String()
+// @Purpose: Armeniaca设置配置文件关键字值(字符类型)
+// @Since: v0.05a
+// @Para: const char* szArrFile			// 配置文件文件路径<in>(eg: D:\\LiveConfig.ini)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrValue		// 配置文件关键字值<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_SetKeyValue_String("D:\\LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0");
+// @Describe: 设置配置文件(INI)关键字值(字符类型)
+//----------------------------------------------------------------------------------------------------------------------------------
+ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_String(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrValue);
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_SetKeyValue_Int()
+// @Purpose: Armeniaca设置配置文件关键字值(值类型)
+// @Since: v0.05a
+// @Para: const char* szArrFile			// 配置文件文件路径<in>(eg: D:\\LiveConfig.ini)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: int nValue					// 配置文件关键字值<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_SetKeyValue_String("D:\\LiveConfig.ini", "LIVECORESHOWMODE", "LiveCoreShowFontSize", 20);
+// @Describe: 设置配置文件(INI)关键字值(值类型)
+//----------------------------------------------------------------------------------------------------------------------------------
+ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Int(const char* szArrFile, const char* szArrSection, const char* szArrKey, int nValue);
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_GetKeyValue_Local_String()
+// @Purpose: Armeniaca获取配置文件关键字值(字符类型)
+// @Since: v0.05a
+// @Para: const char* szArrFileName		// 配置文件文件路径<in>(eg: LiveConfig.ini)		//<<<这里只需要写短文件名(相对于exe目录)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrDefault		// 配置文件缺省值<in>(eg: 0)
+// @Para: char* szArrValue				// 配置文件关键字值数组地址<out>
+// @Para: DWORD dwSize					// 配置文件关键字值数组长度<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_GetKeyValue_Local_String("LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", chArr, MAX_PATH);
+// @Describe: 获取配置文件(INI)关键字值(字符类型)(相对文件名称)
+//----------------------------------------------------------------------------------------------------------------------------------
+ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Local_String(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrDefault, char* szArrValue, DWORD dwSize);
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_GetKeyValue_Local_Int()
+// @Purpose: Armeniaca获取配置文件关键字值(值类型)
+// @Since: v0.05a
+// @Para: const char* szArrFileName		// 配置文件文件路径<in>(eg: LiveConfig.ini)		//<<<这里只需要写短文件名(相对于exe目录)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrDefault		// 配置文件缺省值<in>(eg: 0)
+// @Para: int* pValue					// 配置文件关键字值<out>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_GetKeyValue_Local_Int("LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", &dwValue);
+// @Describe: 获取配置文件(INI)关键字值(值类型)(相对文件名称)
+//----------------------------------------------------------------------------------------------------------------------------------
+ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Local_Int(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrDefault, int* pValue);
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_SetKeyValue_Local_String()
+// @Purpose: Armeniaca设置配置文件关键字值(字符类型)
+// @Since: v0.05a
+// @Para: const char* szArrFileName		// 配置文件文件路径<in>(eg: LiveConfig.ini)		//<<<这里只需要写短文件名(相对于exe目录)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrValue		// 配置文件关键字值<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_SetKeyValue_Local_String("LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0");
+// @Describe: 设置配置文件(INI)关键字值(字符类型)(相对文件名称)
+//----------------------------------------------------------------------------------------------------------------------------------
+ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Local_String(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrValue);
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_SetKeyValue_Local_Int()
+// @Purpose: Armeniaca设置配置文件关键字值(值类型)
+// @Since: v0.05a
+// @Para: const char* szArrFileName		// 配置文件文件路径<in>(eg: LiveConfig.ini)		//<<<这里只需要写短文件名(相对于exe目录)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: int nValue					// 配置文件关键字值<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_SetKeyValue_String("LiveConfig.ini", "LIVECORESHOWMODE", "LiveCoreShowFontSize", 20);
+// @Describe: 设置配置文件(INI)关键字值(值类型)(相对文件名称)
+//----------------------------------------------------------------------------------------------------------------------------------
+ARMENIACA_API BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Local_Int(const char* szArrFileName, const char* szArrSection, const char* szArrKey, int nValue);
+
 
 #endif // !__ARMENIACA_H_
 

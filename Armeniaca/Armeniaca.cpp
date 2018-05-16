@@ -6,11 +6,12 @@
 * @file		Armeniaca.cpp
 * @brief	This Program is Armeniaca C-Style Dynamic Link Library Project.
 * @author	alopex
-* @version	v0.01a
+* @version	v0.05a
 * @date		2018-4-20	v0.01a	alopex	Create Project.
 * @date		2018-4-21	v0.02a	alopex	Add Process Function.
 * @date		2018-4-26	v0.03a	alopex	Change Call Style From __stdcall to __cdecl.
 * @date		2018-4-26	v0.04a	alopex	Add FilePath&Time Function.
+* @date		2018-5-16	v0.05a	alopex	Add Read&Write INI File Function.
 */
 #include "Armeniaca.h"
 
@@ -703,4 +704,268 @@ WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Second()
 	GetLocalTime(&syTime);
 
 	return syTime.wSecond;
+}
+
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+// 配置文件相关(Config File)<ini>
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_GetKeyValue_String()
+// @Purpose: Armeniaca获取配置文件关键字值(字符类型)
+// @Since: v0.05a
+// @Para: const char* szArrFile			// 配置文件文件路径<in>(eg: D:\\LiveConfig.ini)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrDefault		// 配置文件缺省值<in>(eg: 0)
+// @Para: char* szArrValue				// 配置文件关键字值数组地址<out>
+// @Para: DWORD dwSize					// 配置文件关键字值数组长度<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_GetKeyValue_String("D:\\LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", chArr, MAX_PATH);
+// @Describe: 获取配置文件(INI)关键字值(字符类型)
+//----------------------------------------------------------------------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_String(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrDefault, char* szArrValue, DWORD dwSize)
+{
+	DWORD dwCount = 0;
+	char chArrValue[MAX_PATH] = { 0 };
+
+	memset(chArrValue, 0, MAX_PATH);
+	dwCount = GetPrivateProfileStringA(szArrSection, szArrKey, szArrDefault, szArrValue, dwSize, szArrFile);
+	if (dwCount <= 0 || dwCount > dwSize)
+	{
+		return FALSE;
+	}
+
+	memcpy_s(szArrValue, dwSize, chArrValue, dwCount);
+
+	return TRUE;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_GetKeyValue_Int()
+// @Purpose: Armeniaca获取配置文件关键字值(值类型)
+// @Since: v0.05a
+// @Para: const char* szArrFile			// 配置文件文件路径<in>(eg: D:\\LiveConfig.ini)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrDefault		// 配置文件缺省值<in>(eg: 0)
+// @Para: int* pValue					// 配置文件关键字值<out>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_GetKeyValue_Int("D:\\LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", &dwValue);
+// @Describe: 获取配置文件(INI)关键字值(值类型)
+//----------------------------------------------------------------------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Int(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrDefault, int* pValue)
+{
+	DWORD dwCount = 0;
+	char chArrValue[MAX_PATH] = { 0 };
+
+	memset(chArrValue, 0, MAX_PATH);
+	dwCount = GetPrivateProfileStringA(szArrSection, szArrKey, szArrDefault, chArrValue, MAX_PATH, szArrFile);
+	if (dwCount <= 0)
+	{
+		return FALSE;
+	}
+
+	*pValue = atoi(chArrValue);
+
+	return TRUE;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_SetKeyValue_String()
+// @Purpose: Armeniaca设置配置文件关键字值(字符类型)
+// @Since: v0.05a
+// @Para: const char* szArrFile			// 配置文件文件路径<in>(eg: D:\\LiveConfig.ini)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrValue		// 配置文件关键字值<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_SetKeyValue_String("D:\\LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0");
+// @Describe: 设置配置文件(INI)关键字值(字符类型)
+//----------------------------------------------------------------------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_String(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrValue)
+{
+	BOOL bRet = FALSE;
+
+	bRet = WritePrivateProfileStringA(szArrSection, szArrKey, szArrValue, szArrFile);
+
+	return bRet;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_SetKeyValue_Int()
+// @Purpose: Armeniaca设置配置文件关键字值(值类型)
+// @Since: v0.05a
+// @Para: const char* szArrFile			// 配置文件文件路径<in>(eg: D:\\LiveConfig.ini)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: int nValue					// 配置文件关键字值<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_SetKeyValue_String("D:\\LiveConfig.ini", "LIVECORESHOWMODE", "LiveCoreShowFontSize", 20);
+// @Describe: 设置配置文件(INI)关键字值(值类型)
+//----------------------------------------------------------------------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Int(const char* szArrFile, const char* szArrSection, const char* szArrKey, int nValue)
+{
+	BOOL bRet = FALSE;
+	char chArrValue[MAX_PATH] = { 0 };
+
+	memset(chArrValue, 0, MAX_PATH);
+	sprintf_s(chArrValue, MAX_PATH, "%d", nValue);
+
+	bRet = WritePrivateProfileStringA(szArrSection, szArrKey, chArrValue, szArrFile);
+
+	return bRet;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_GetKeyValue_Local_String()
+// @Purpose: Armeniaca获取配置文件关键字值(字符类型)
+// @Since: v0.05a
+// @Para: const char* szArrFileName		// 配置文件文件路径<in>(eg: LiveConfig.ini)		//<<<这里只需要写短文件名(相对于exe目录)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrDefault		// 配置文件缺省值<in>(eg: 0)
+// @Para: char* szArrValue				// 配置文件关键字值数组地址<out>
+// @Para: DWORD dwSize					// 配置文件关键字值数组长度<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_GetKeyValue_Local_String("LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", chArr, MAX_PATH);
+// @Describe: 获取配置文件(INI)关键字值(字符类型)(相对文件名称)
+//----------------------------------------------------------------------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Local_String(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrDefault, char* szArrValue, DWORD dwSize)
+{
+	BOOL bRet = FALSE;
+	DWORD dwCount = 0;
+	char chArrFile[MAX_PATH] = { 0 };
+	char chArrValue[MAX_PATH] = { 0 };
+
+	memset(chArrFile, 0, MAX_PATH);
+	bRet = Armeniaca_FilePath_GetLocalPathA(chArrFile, MAX_PATH);
+	if (!bRet)
+	{
+		return FALSE;
+	}
+
+	strcat_s(chArrFile, "\\");
+	strcat_s(chArrFile, szArrFileName);
+
+	memset(chArrValue, 0, MAX_PATH);
+	dwCount = GetPrivateProfileStringA(szArrSection, szArrKey, szArrDefault, szArrValue, dwSize, chArrFile);
+	if (dwCount <= 0 || dwCount > dwSize)
+	{
+		return FALSE;
+	}
+
+	memcpy_s(szArrValue, dwSize, chArrValue, dwCount);
+
+	return TRUE;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_GetKeyValue_Local_Int()
+// @Purpose: Armeniaca获取配置文件关键字值(值类型)
+// @Since: v0.05a
+// @Para: const char* szArrFileName		// 配置文件文件路径<in>(eg: LiveConfig.ini)		//<<<这里只需要写短文件名(相对于exe目录)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrDefault		// 配置文件缺省值<in>(eg: 0)
+// @Para: int* pValue					// 配置文件关键字值<out>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_GetKeyValue_Local_Int("LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", &dwValue);
+// @Describe: 获取配置文件(INI)关键字值(值类型)(相对文件名称)
+//----------------------------------------------------------------------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Local_Int(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrDefault, int* pValue)
+{
+	BOOL bRet = FALSE;
+	DWORD dwCount = 0;
+	char chArrFile[MAX_PATH] = { 0 };
+	char chArrValue[MAX_PATH] = { 0 };
+
+	memset(chArrFile, 0, MAX_PATH);
+	bRet = Armeniaca_FilePath_GetLocalPathA(chArrFile, MAX_PATH);
+	if (!bRet)
+	{
+		return FALSE;
+	}
+
+	strcat_s(chArrFile, "\\");
+	strcat_s(chArrFile, szArrFileName);
+
+	memset(chArrValue, 0, MAX_PATH);
+	dwCount = GetPrivateProfileStringA(szArrSection, szArrKey, szArrDefault, chArrValue, MAX_PATH, chArrFile);
+	if (dwCount <= 0)
+	{
+		return FALSE;
+	}
+
+	*pValue = atoi(chArrValue);
+
+	return TRUE;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_SetKeyValue_Local_String()
+// @Purpose: Armeniaca设置配置文件关键字值(字符类型)
+// @Since: v0.05a
+// @Para: const char* szArrFileName		// 配置文件文件路径<in>(eg: LiveConfig.ini)		//<<<这里只需要写短文件名(相对于exe目录)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: const char* szArrValue		// 配置文件关键字值<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_SetKeyValue_Local_String("LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0");
+// @Describe: 设置配置文件(INI)关键字值(字符类型)(相对文件名称)
+//----------------------------------------------------------------------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Local_String(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrValue)
+{
+	BOOL bRet = FALSE;
+	char chArrFile[MAX_PATH] = { 0 };
+
+	memset(chArrFile, 0, MAX_PATH);
+	bRet = Armeniaca_FilePath_GetLocalPathA(chArrFile, MAX_PATH);
+	if (!bRet)
+	{
+		return FALSE;
+	}
+
+	strcat_s(chArrFile, "\\");
+	strcat_s(chArrFile, szArrFileName);
+
+	bRet = WritePrivateProfileStringA(szArrSection, szArrKey, szArrValue, chArrFile);
+
+	return bRet;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Config_SetKeyValue_Local_Int()
+// @Purpose: Armeniaca设置配置文件关键字值(值类型)
+// @Since: v0.05a
+// @Para: const char* szArrFileName		// 配置文件文件路径<in>(eg: LiveConfig.ini)		//<<<这里只需要写短文件名(相对于exe目录)
+// @Para: const char* szArrSection		// 配置文件关键段名称<in>(eg: [LIVECOREMODE])
+// @Para: const char* szArrKey			// 配置文件关键字名称<in>(eg: LiveCoreMode=0)
+// @Para: int nValue					// 配置文件关键字值<in>
+// @Return: BOOL bRet					// 返回值: (TRUE: 成功 FALSE: 失败)
+// @Sample: bRet = Armeniaca_Config_SetKeyValue_String("LiveConfig.ini", "LIVECORESHOWMODE", "LiveCoreShowFontSize", 20);
+// @Describe: 设置配置文件(INI)关键字值(值类型)(相对文件名称)
+//----------------------------------------------------------------------------------------------------------------------------------
+BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Local_Int(const char* szArrFileName, const char* szArrSection, const char* szArrKey, int nValue)
+{
+	BOOL bRet = FALSE;
+	char chArrFile[MAX_PATH] = { 0 };
+	char chArrValue[MAX_PATH] = { 0 };
+
+	memset(chArrFile, 0, MAX_PATH);
+	bRet = Armeniaca_FilePath_GetLocalPathA(chArrFile, MAX_PATH);
+	if (!bRet)
+	{
+		return FALSE;
+	}
+
+	strcat_s(chArrFile, "\\");
+	strcat_s(chArrFile, szArrFileName);
+
+	memset(chArrValue, 0, MAX_PATH);
+	sprintf_s(chArrValue, MAX_PATH, "%d", nValue);
+
+	bRet = WritePrivateProfileStringA(szArrSection, szArrKey, chArrValue, chArrFile);
+
+	return bRet;
 }
