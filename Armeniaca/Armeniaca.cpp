@@ -30,7 +30,7 @@
 // @Sample: bRet = Armeniaca_Process_IsProcessExistA("LiveCore.exe");
 // @Describe: 检测进程是否存在(名称)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Process_IsProcessExistA(const char* strProcessName)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Process_IsProcessExistA(const char* strProcessName)
 {
 	BOOL bRet = FALSE;
 	HANDLE hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -79,7 +79,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Process_IsProcessExistA(const char* strProcess
 // @Sample: bRet = Armeniaca_Process_IsProcessExistW(L"LiveCore.exe");
 // @Describe: 检测进程是否存在(名称)(TRUE:进程存在, FALSE:进程不存在)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Process_IsProcessExistW(const wchar_t* strProcessName)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Process_IsProcessExistW(const wchar_t* strProcessName)
 {
 	BOOL bRet = FALSE;
 	HANDLE hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -117,7 +117,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Process_IsProcessExistW(const wchar_t* strProc
 // @Sample: bRet = Armeniaca_Process_StartProcessA("LiveCore.exe");
 // @Describe: 启动进程(名称)(TRUE:启动进程成功, FALSE:启动进程失败)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Process_StartProcessA(const char* strProcessName)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Process_StartProcessA(const char* strProcessName)
 {
 	BOOL bRet = FALSE;
 
@@ -160,7 +160,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Process_StartProcessA(const char* strProcessNa
 // @Sample: bRet = Armeniaca_Process_StartProcessW(L"LiveCore.exe");
 // @Describe: 启动进程(名称)(TRUE:启动进程成功, FALSE:启动进程失败)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Process_StartProcessW(const wchar_t* strProcessName)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Process_StartProcessW(const wchar_t* strProcessName)
 {
 	BOOL bRet = FALSE;
 
@@ -221,7 +221,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Process_StartProcessW(const wchar_t* strProces
 // @Sample: Armeniaca_Convert_A2W_Safe(A, W, sizeof(W));
 // @Describe: 字符转换:ASCII转换Unicode(TRUE:转换成功, FALSE:目标数字内存不足)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Convert_A2W_Safe(const char* szArr, const wchar_t* wszArr, int nSize)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Convert_A2W_Safe(const char* szArr, const wchar_t* wszArr, int nSize)
 {
 	int nSrcSize = 0;
 	wchar_t* pwszArr = NULL;
@@ -256,7 +256,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Convert_A2W_Safe(const char* szArr, const wcha
 // @Sample: Armeniaca_Convert_W2A_Safe(W, A, sizeof(A));
 // @Describe: 字符转换:Unicode转换ASCII(TRUE:转换成功, FALSE:目标数字内存不足)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Convert_W2A_Safe(const wchar_t* wszArr, const char* szArr, int nSize)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Convert_W2A_Safe(const wchar_t* wszArr, const char* szArr, int nSize)
 {
 	int nSrcSize = 0;
 	char* pszArr = NULL;
@@ -290,7 +290,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Convert_W2A_Safe(const wchar_t* wszArr, const 
 // @Sample: Armeniaca_Convert_A2W_UnSafe(A, W);
 // @Describe: 字符转换:ASCII转换Unicode(传入目标数组NULL指针,需要释放内存!)
 //------------------------------------------------------------------
-void ARMENIACA_CALLMODE Armeniaca_Convert_A2W_UnSafe(const char* szArr, wchar_t** ppwszArr)
+void ARMENIACA_CALLMETHOD Armeniaca_Convert_A2W_UnSafe(const char* szArr, wchar_t** ppwszArr)
 {
 	int nSize = 0;
 
@@ -312,7 +312,7 @@ void ARMENIACA_CALLMODE Armeniaca_Convert_A2W_UnSafe(const char* szArr, wchar_t*
 // @Sample: Armeniaca_Convert_W2A_UnSafe(W, A);
 // @Describe: 字符转换:Unicode转换ASCII(传入目标数组NULL指针,需要释放内存!)
 //------------------------------------------------------------------
-void ARMENIACA_CALLMODE Armeniaca_Convert_W2A_UnSafe(const wchar_t* wszArr, char** ppszArr)
+void ARMENIACA_CALLMETHOD Armeniaca_Convert_W2A_UnSafe(const wchar_t* wszArr, char** ppszArr)
 {
 	int nSize = 0;
 
@@ -333,7 +333,7 @@ void ARMENIACA_CALLMODE Armeniaca_Convert_W2A_UnSafe(const wchar_t* wszArr, char
 // @Sample: W = Armeniaca_Convert_A2W_UnSafe2(A);
 // @Describe: 字符转换:ASCII转换Unicode(传入目标数组NULL指针,需要释放内存!)
 //------------------------------------------------------------------
-wchar_t* ARMENIACA_CALLMODE Armeniaca_Convert_A2W_UnSafe2(const char* szArr)
+wchar_t* ARMENIACA_CALLMETHOD Armeniaca_Convert_A2W_UnSafe2(const char* szArr)
 {
 	int nSize = 0;
 	wchar_t* pwszArr = NULL;
@@ -354,7 +354,7 @@ wchar_t* ARMENIACA_CALLMODE Armeniaca_Convert_A2W_UnSafe2(const char* szArr)
 // @Return: char* szArr				// 目标字符数组(指针返回)
 // @Sample: A = Armeniaca_Convert_W2A_UnSafe2(W);
 //------------------------------------------------------------------
-char* ARMENIACA_CALLMODE Armeniaca_Convert_W2A_UnSafe2(const wchar_t* wszArr)
+char* ARMENIACA_CALLMETHOD Armeniaca_Convert_W2A_UnSafe2(const wchar_t* wszArr)
 {
 	int nSize = 0;
 	char* pszArr = NULL;
@@ -381,7 +381,7 @@ char* ARMENIACA_CALLMODE Armeniaca_Convert_W2A_UnSafe2(const wchar_t* wszArr)
 // @Sample: Armeniaca_FilePath_GetModulePathA(szArr, nSize);
 // @Describe: 文件路径:获取模块当前文件路径(TRUE:成功, FALSE:失败)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetModulePathA(const char* szArr, int nSize)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_FilePath_GetModulePathA(const char* szArr, int nSize)
 {
 	char chArr[MAX_PATH] = { 0 };
 	char* pTemp = NULL;
@@ -410,7 +410,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetModulePathA(const char* szArr, int
 // @Sample: Armeniaca_FilePath_GetModulePathW(wszArr, nSize);
 // @Describe: 文件路径:获取模块当前文件路径(TRUE:成功, FALSE:失败)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetModulePathW(const wchar_t* wszArr, int nSize)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_FilePath_GetModulePathW(const wchar_t* wszArr, int nSize)
 {
 	char chArr[MAX_PATH] = { 0 };
 	char* pTemp = NULL;
@@ -438,7 +438,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetModulePathW(const wchar_t* wszArr,
 // @Sample: Armeniaca_FilePath_GetLocalPathA(szArr, nSize);
 // @Describe: 文件路径:获取模块当前文件夹路径(TRUE:成功, FALSE:失败)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetLocalPathA(const char* szArr, int nSize)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_FilePath_GetLocalPathA(const char* szArr, int nSize)
 {
 	char chArr[MAX_PATH] = { 0 };
 	char* pTemp = NULL;
@@ -473,7 +473,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetLocalPathA(const char* szArr, int 
 // @Sample: Armeniaca_FilePath_GetLocalPathW(wszArr, nSize);
 // @Describe: 文件路径:获取模块当前文件夹路径(TRUE:成功, FALSE:失败)
 //------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetLocalPathW(const wchar_t* wszArr, int nSize)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_FilePath_GetLocalPathW(const wchar_t* wszArr, int nSize)
 {
 	char chArr[MAX_PATH] = { 0 };
 	char* pTemp = NULL;
@@ -506,7 +506,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetLocalPathW(const wchar_t* wszArr, 
 // @Sample: Armeniaca_FilePath_GetParentPathA(szArr, nSize, 2);
 // @Describe: 文件路径:获取模块当前文件夹父级路径(TRUE:成功, FALSE:失败)
 //--------------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetParentPathA(const char* szArr, int nSize, int nDeep)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_FilePath_GetParentPathA(const char* szArr, int nSize, int nDeep)
 {
 	char chArr[MAX_PATH] = { 0 };
 	int nArrSize = 0;
@@ -550,7 +550,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetParentPathA(const char* szArr, int
 // @Sample: Armeniaca_FilePath_GetParentPathW(wszArr, nSize, 2);
 // @Describe: 文件路径:获取模块当前文件夹父级路径(TRUE:成功, FALSE:失败)
 //--------------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetParentPathW(const wchar_t* wszArr, int nSize, int nDeep)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_FilePath_GetParentPathW(const wchar_t* wszArr, int nSize, int nDeep)
 {
 	char chArr[MAX_PATH] = { 0 };
 
@@ -593,7 +593,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_FilePath_GetParentPathW(const wchar_t* wszArr,
 // @Sample: Armeniaca_Time_GetLocalTime(&LocalTime);
 // @Describe: 时间:获取当前系统时间
 //--------------------------------------------------------------------------
-void ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime(SYSTEMTIME* pLocalTime)
+void ARMENIACA_CALLMETHOD Armeniaca_Time_GetLocalTime(SYSTEMTIME* pLocalTime)
 {
 	GetLocalTime(pLocalTime);
 }
@@ -607,7 +607,7 @@ void ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime(SYSTEMTIME* pLocalTime)
 // @Sample: wYear = Armeniaca_Time_GetLocalTime_Year();
 // @Describe: 时间:获取当前系统时间(年份)
 //--------------------------------------------------------------------------
-WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Year()
+WORD ARMENIACA_CALLMETHOD Armeniaca_Time_GetLocalTime_Year()
 {
 	SYSTEMTIME syTime;
 
@@ -625,7 +625,7 @@ WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Year()
 // @Sample: wMonth = Armeniaca_Time_GetLocalTime_Month();
 // @Describe: 时间:获取当前系统时间(月份)
 //--------------------------------------------------------------------------
-WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Month()
+WORD ARMENIACA_CALLMETHOD Armeniaca_Time_GetLocalTime_Month()
 {
 	SYSTEMTIME syTime;
 
@@ -643,7 +643,7 @@ WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Month()
 // @Sample: wDay = Armeniaca_Time_GetLocalTime_Day();
 // @Describe: 时间:获取当前系统时间(天数)
 //--------------------------------------------------------------------------
-WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Day()
+WORD ARMENIACA_CALLMETHOD Armeniaca_Time_GetLocalTime_Day()
 {
 	SYSTEMTIME syTime;
 
@@ -661,7 +661,7 @@ WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Day()
 // @Sample: wHour = Armeniaca_Time_GetLocalTime_Hour();
 // @Describe: 时间:获取当前系统时间(小时)
 //--------------------------------------------------------------------------
-WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Hour()
+WORD ARMENIACA_CALLMETHOD Armeniaca_Time_GetLocalTime_Hour()
 {
 	SYSTEMTIME syTime;
 
@@ -679,7 +679,7 @@ WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Hour()
 // @Sample: wMinute = Armeniaca_Time_GetLocalTime_Minute();
 // @Describe: 时间:获取当前系统时间(分钟)
 //--------------------------------------------------------------------------
-WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Minute()
+WORD ARMENIACA_CALLMETHOD Armeniaca_Time_GetLocalTime_Minute()
 {
 	SYSTEMTIME syTime;
 
@@ -697,7 +697,7 @@ WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Minute()
 // @Sample: wSecond = Armeniaca_Time_GetLocalTime_Second();
 // @Describe: 时间:获取当前系统时间(秒)
 //--------------------------------------------------------------------------
-WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Second()
+WORD ARMENIACA_CALLMETHOD Armeniaca_Time_GetLocalTime_Second()
 {
 	SYSTEMTIME syTime;
 
@@ -724,7 +724,7 @@ WORD ARMENIACA_CALLMODE Armeniaca_Time_GetLocalTime_Second()
 // @Sample: bRet = Armeniaca_Config_GetKeyValue_String("D:\\LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", chArr, MAX_PATH);
 // @Describe: 获取配置文件(INI)关键字值(字符类型)
 //----------------------------------------------------------------------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_String(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrDefault, char* szArrValue, DWORD dwSize)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Config_GetKeyValue_String(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrDefault, char* szArrValue, DWORD dwSize)
 {
 	DWORD dwCount = 0;
 	char chArrValue[MAX_PATH] = { 0 };
@@ -754,7 +754,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_String(const char* szArrFil
 // @Sample: bRet = Armeniaca_Config_GetKeyValue_Int("D:\\LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", &dwValue);
 // @Describe: 获取配置文件(INI)关键字值(值类型)
 //----------------------------------------------------------------------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Int(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrDefault, int* pValue)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Config_GetKeyValue_Int(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrDefault, int* pValue)
 {
 	DWORD dwCount = 0;
 	char chArrValue[MAX_PATH] = { 0 };
@@ -783,7 +783,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Int(const char* szArrFile, 
 // @Sample: bRet = Armeniaca_Config_SetKeyValue_String("D:\\LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0");
 // @Describe: 设置配置文件(INI)关键字值(字符类型)
 //----------------------------------------------------------------------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_String(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrValue)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Config_SetKeyValue_String(const char* szArrFile, const char* szArrSection, const char* szArrKey, const char* szArrValue)
 {
 	BOOL bRet = FALSE;
 
@@ -804,7 +804,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_String(const char* szArrFil
 // @Sample: bRet = Armeniaca_Config_SetKeyValue_String("D:\\LiveConfig.ini", "LIVECORESHOWMODE", "LiveCoreShowFontSize", 20);
 // @Describe: 设置配置文件(INI)关键字值(值类型)
 //----------------------------------------------------------------------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Int(const char* szArrFile, const char* szArrSection, const char* szArrKey, int nValue)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Config_SetKeyValue_Int(const char* szArrFile, const char* szArrSection, const char* szArrKey, int nValue)
 {
 	BOOL bRet = FALSE;
 	char chArrValue[MAX_PATH] = { 0 };
@@ -831,7 +831,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Int(const char* szArrFile, 
 // @Sample: bRet = Armeniaca_Config_GetKeyValue_Local_String("LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", chArr, MAX_PATH);
 // @Describe: 获取配置文件(INI)关键字值(字符类型)(相对文件名称)
 //----------------------------------------------------------------------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Local_String(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrDefault, char* szArrValue, DWORD dwSize)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Config_GetKeyValue_Local_String(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrDefault, char* szArrValue, DWORD dwSize)
 {
 	BOOL bRet = FALSE;
 	DWORD dwCount = 0;
@@ -873,7 +873,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Local_String(const char* sz
 // @Sample: bRet = Armeniaca_Config_GetKeyValue_Local_Int("LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0", &dwValue);
 // @Describe: 获取配置文件(INI)关键字值(值类型)(相对文件名称)
 //----------------------------------------------------------------------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Local_Int(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrDefault, int* pValue)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Config_GetKeyValue_Local_Int(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrDefault, int* pValue)
 {
 	BOOL bRet = FALSE;
 	DWORD dwCount = 0;
@@ -914,7 +914,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Config_GetKeyValue_Local_Int(const char* szArr
 // @Sample: bRet = Armeniaca_Config_SetKeyValue_Local_String("LiveConfig.ini", "LIVECOREMODE", "LiveCoreMode", "0");
 // @Describe: 设置配置文件(INI)关键字值(字符类型)(相对文件名称)
 //----------------------------------------------------------------------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Local_String(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrValue)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Config_SetKeyValue_Local_String(const char* szArrFileName, const char* szArrSection, const char* szArrKey, const char* szArrValue)
 {
 	BOOL bRet = FALSE;
 	char chArrFile[MAX_PATH] = { 0 };
@@ -946,7 +946,7 @@ BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Local_String(const char* sz
 // @Sample: bRet = Armeniaca_Config_SetKeyValue_String("LiveConfig.ini", "LIVECORESHOWMODE", "LiveCoreShowFontSize", 20);
 // @Describe: 设置配置文件(INI)关键字值(值类型)(相对文件名称)
 //----------------------------------------------------------------------------------------------------------------------------------
-BOOL ARMENIACA_CALLMODE Armeniaca_Config_SetKeyValue_Local_Int(const char* szArrFileName, const char* szArrSection, const char* szArrKey, int nValue)
+BOOL ARMENIACA_CALLMETHOD Armeniaca_Config_SetKeyValue_Local_Int(const char* szArrFileName, const char* szArrSection, const char* szArrKey, int nValue)
 {
 	BOOL bRet = FALSE;
 	char chArrFile[MAX_PATH] = { 0 };
