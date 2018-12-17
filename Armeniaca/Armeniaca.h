@@ -34,6 +34,24 @@
 #include <mmsystem.h>
 #include <assert.h>
 
+//Include Prunus Dynamic Link Library
+#include "PlumCommon.h"
+#include "PlumCipherA.h"
+#include "PlumConsole.h"
+#include "PlumCrypt.h"
+#include "PlumFile.h"
+#include "PlumGraphics.h"
+#include "PlumIni.h"
+#include "PlumLog.h"
+#include "PlumLogEx.h"
+#include "PlumPack.h"
+#include "PlumPath.h"
+#include "PlumProcess.h"
+#include "PlumThread.h"
+
+//Include Prunus Library
+#pragma comment(lib, "Prunus.lib")
+
 //Macro Definition
 #ifdef ARMENIACA_EXPORTS
 #define ARMENIACA_API extern "C" __declspec(dllexport)
