@@ -969,3 +969,35 @@ BOOL ARMENIACA_CALLMETHOD Armeniaca_Config_SetKeyValue_Local_Int(const char* szA
 
 	return bRet;
 }
+
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+// Prunus动态链接库SDK初始化(Prunus)
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Prunus_SDK_Init()
+// @Purpose: Armeniaca Prunus动态链接库SDK初始化
+// @Since: v1.00a
+// @Para: none
+// @Return: none
+// @Sample: Armeniaca_Prunus_SDK_Init();
+// @Describe: Prunus动态链接库SDK初始化
+//----------------------------------------------------------------------------------------------------------------------------------
+ARMENIACA_API void ARMENIACA_CALLMETHOD Armeniaca_Prunus_SDK_Init()
+{
+	
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------
+// @Function:	 Armeniaca_Prunus_SDK_Release()
+// @Purpose: Armeniaca Prunus动态链接库SDK
+// @Since: v1.00a
+// @Para: none
+// @Return: none
+// @Sample: Armeniaca_Prunus_SDK_Release();
+// @Describe: Prunus动态链接库SDK释放
+//----------------------------------------------------------------------------------------------------------------------------------
+ARMENIACA_API void ARMENIACA_CALLMETHOD Armeniaca_Prunus_SDK_Release()
+{
+	
+}
